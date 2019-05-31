@@ -6,6 +6,7 @@ CREATE TABLE secret (
 CREATE TABLE music_score (
     title TEXT NOT NULL,
     file_name TEXT NOT NULL,
+    style TEXT,
     other_files BLOB,
     lyrics TEXT,
     data_path_id INTEGER NOT NULL ,
@@ -17,4 +18,4 @@ create table data_path (
     path TEXT NOT NULL
 );
 
-CREATE VIRTUAL TABLE music_index USING fts5(title, file_name, lyrics);
+CREATE VIRTUAL TABLE music_index USING fts5(title, file_name, lyrics, style);
