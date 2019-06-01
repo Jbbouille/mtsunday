@@ -34,12 +34,17 @@ enum Command {
         input: PathBuf,
         #[structopt(short = "o", long = "output-db-name", parse(from_os_str))]
         /// The name of the SQLite database.
-        output_db_name: PathBuf
+        output_db_name: PathBuf,
+        #[structopt(short = "p", long = "data-path", parse(from_os_str))]
+        /// The directory where all files will be located.
+        data_path: PathBuf,
+
     }
 }
 
 fn main() {
     let opt: Opt = Opt::from_args();
+    trace!("Starting app with parameters {:?}.", opt);
 
     Builder::from_default_env()
         .filter_level(opt.log.to_level_filter())
@@ -47,7 +52,7 @@ fn main() {
 
     let command: Command = opt.cmd;
     match command {
-        Command::Create {input, output_db_name} => create_database(input, output_db_name),
+        Command::Create {input, output_db_name, data_path} => create_database(input, output_db_name, data_path),
         Command::Serve {} => unimplemented!(),
     }
 }
