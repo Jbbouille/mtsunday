@@ -3,9 +3,11 @@ extern crate log;
 extern crate env_logger;
 
 mod create;
+mod serve;
 
 use structopt::StructOpt;
 use crate::create::create_database;
+use crate::serve::serve;
 use log::Level;
 use std::path::PathBuf;
 use env_logger::Builder;
@@ -25,6 +27,16 @@ enum Command {
     #[structopt(name = "serve")]
     /// This start a web server to use MT Sunday tool.
     Serve {
+        #[structopt(short = "c", long = "certificate", parse(from_os_str))]
+        /// The path of the certificate.
+        certificate: Option<PathBuf>,
+        #[structopt(short = "k", long = "rsa-key", parse(from_os_str))]
+        /// The path of the rsa key.
+        key: Option<PathBuf>,
+        #[structopt(short = "s", long = "secured")]
+        /// Start server in http or in https.
+        secured: bool,
+
     },
     #[structopt(name = "create")]
     /// This will create a SQLite DB required in order to start the web server.
@@ -53,6 +65,6 @@ fn main() {
     let command: Command = opt.cmd;
     match command {
         Command::Create {input, output_db_name, data_path} => create_database(input, output_db_name, data_path),
-        Command::Serve {} => unimplemented!(),
+        Command::Serve {certificate, key, secured} => serve(certificate, key, secured),
     }
 }

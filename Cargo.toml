@@ -9,3 +9,4 @@ structopt = "0.2.15"
 log = "0.4.0"
 env_logger = "0.6.1"
 walkdir = "2.2.7"
+warp = { version = "0.1.15", features = ["tls"] }
