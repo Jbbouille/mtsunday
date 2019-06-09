@@ -8,7 +8,7 @@ pub fn serve(certificate: Option<PathBuf>, key: Option<PathBuf>, secured: bool) 
     if secured {
         warp::serve(hello)
             .tls(certificate.expect(""), key.expect(""))
-            .run(([127, 0, 0, 1], 443));
+            .run(([0, 0, 0, 0], 443));
     } else {
         warp::serve(hello)
             .run(([127, 0, 0, 1], 8080));
